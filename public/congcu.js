@@ -544,6 +544,8 @@ function openWorkspace(toolId) {
     workspaceFooterBar.style.display = 'flex';
     if (toolId === 'btn-tarot-start') {
       setupTarotBoard();
+    } else {
+      renderToolControls();
     }
   }
 

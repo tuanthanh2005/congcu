@@ -384,6 +384,18 @@ const toolsConfig = {
     desc: 'Hãy tập trung tâm trí, suy nghĩ về vấn đề bạn đang băn khoăn và rút 3 lá bài để nhận lời khuyên.',
     accept: null,
     multiple: false
+  },
+  'tool-buy-ai': {
+    title: 'Mua AI',
+    desc: 'Mua tài khoản AI, phần mềm bản quyền chính hãng với giá tốt nhất thị trường.',
+    accept: null,
+    multiple: false
+  },
+  'tool-buy-software': {
+    title: 'Mua Phần mềm',
+    desc: 'Mua tài khoản AI, phần mềm bản quyền chính hãng với giá tốt nhất thị trường.',
+    accept: null,
+    multiple: false
   }
 };
 
@@ -437,7 +449,7 @@ const workspaceFilesList     = document.getElementById('workspace-files-list');
 const fileCountSpan          = document.getElementById('file-count');
 const workspaceEditorPanel   = document.getElementById('workspace-editor-panel');
 const workspaceControls      = document.getElementById('workspace-controls');
-const workspacePreviewArea   = document.getElementById('workspace-preview-area');
+const workspacePreviewArea   = document.getElementById('dynamic-preview-area');
 const workspaceFooterBar     = document.getElementById('workspace-footer-bar');
 const workspaceStatusText    = document.getElementById('workspace-status-text');
 const workspaceActionBtn     = document.getElementById('workspace-action-btn');
@@ -491,6 +503,23 @@ function openWorkspace(toolId) {
   workspaceFilesList.innerHTML = '';
   fileCountSpan.textContent = '0';
   workspacePreviewArea.innerHTML = '';
+
+  // Handle static preview visibility
+  document.querySelectorAll('.static-preview-container').forEach(el => el.style.display = 'none');
+  const dynamicPreview = document.getElementById('dynamic-preview-area');
+  if (toolId === 'tool-buy-ai' || toolId === 'tool-buy-software') {
+    dynamicPreview.style.display = 'none';
+    if (toolId === 'tool-buy-ai') {
+      const buyAiEl = document.getElementById('preview-tool-buy-ai');
+      if (buyAiEl) buyAiEl.style.display = 'block';
+    } else if (toolId === 'tool-buy-software') {
+      const buySwEl = document.getElementById('preview-tool-buy-software');
+      if (buySwEl) buySwEl.style.display = 'block';
+    }
+  } else {
+    dynamicPreview.style.display = 'block';
+  }
+
   const editorLayout = document.querySelector('.editor-layout');
   if (toolId === 'btn-tarot-start') {
     workspaceControls.style.display = 'none';
@@ -509,11 +538,13 @@ function openWorkspace(toolId) {
     workspaceFileInput.multiple = config.multiple;
     document.getElementById('workspace-formats-hint').textContent = `Hỗ trợ: ${config.accept.toUpperCase()}`;
   } else {
-    // Tool doesn't require upload (like Tarot)
+    // Tool doesn't require upload (like Tarot or Shop)
     workspaceUploadPanel.style.display = 'none';
     workspaceEditorPanel.style.display = 'block';
     workspaceFooterBar.style.display = 'flex';
-    setupTarotBoard();
+    if (toolId === 'btn-tarot-start') {
+      setupTarotBoard();
+    }
   }
 
   // Display overlay
@@ -903,6 +934,34 @@ function initToolControlsListeners() {
       }
     });
   }
+
+  // Shop navigation triggers
+  initShopListeners();
+}
+
+function initShopListeners() {
+  const shopBinds = [
+    { id: 'nav-buy-ai', toolId: 'tool-buy-ai' },
+    { id: 'nav-buy-software', toolId: 'tool-buy-software' },
+    { id: 'footer-buy-ai', toolId: 'tool-buy-ai' },
+    { id: 'footer-buy-software', toolId: 'tool-buy-software' },
+    { id: 'btn-view-all-ai', toolId: 'tool-buy-ai' },
+    { id: 'btn-view-all-sw', toolId: 'tool-buy-software' },
+    { id: 'sidebar-buy-ai', toolId: 'tool-buy-ai' },
+    { id: 'sidebar-buy-software', toolId: 'tool-buy-software' },
+    { id: 'sidebar-buy-ai-alt', toolId: 'tool-buy-ai' },
+    { id: 'sidebar-buy-software-alt', toolId: 'tool-buy-software' }
+  ];
+
+  shopBinds.forEach(bind => {
+    const el = document.getElementById(bind.id);
+    if (el) {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        openWorkspace(bind.toolId);
+      });
+    }
+  });
 }
 
 // Trigger initial listeners binding

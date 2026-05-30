@@ -109,8 +109,8 @@
         <div class="dropdown-panel" id="shop-dropdown">
           <div class="dropdown-grid single">
             <div class="dropdown-col">
-              <a href="#" class="dropdown-item"><i class="bi bi-robot"></i> Mua AI</a>
-              <a href="#" class="dropdown-item"><i class="bi bi-laptop"></i> Mua Phần mềm</a>
+              <a href="#" class="dropdown-item" id="nav-buy-ai"><i class="bi bi-robot"></i> Mua AI</a>
+              <a href="#" class="dropdown-item" id="nav-buy-software"><i class="bi bi-laptop"></i> Mua Phần mềm</a>
             </div>
           </div>
         </div>
@@ -574,8 +574,8 @@
       </div>
       <div class="footer-col">
         <h5>Cửa hàng</h5>
-        <a href="#">Mua AI</a>
-        <a href="#">Mua Phần mềm</a>
+        <a href="#" id="footer-buy-ai">Mua AI</a>
+        <a href="#" id="footer-buy-software">Mua Phần mềm</a>
         <a href="#">Gói Premium</a>
         <a href="#">Liên hệ</a>
       </div>
@@ -658,11 +658,16 @@
             @include('tools.webp-jpg')
             @include('tools.compress-img')
             @include('tools.ebook')
+            @include('tools.shop')
           </div>
 
           {{-- Right Side: Interactive Preview / Output --}}
           <div class="editor-preview" id="workspace-preview-area">
-            <!-- Dynamically populated previews: PDF pages, canvas rendering, Tarot table -->
+            {{-- Static Previews --}}
+            @include('tools.shop-products')
+
+            {{-- Dynamic Previews --}}
+            <div id="dynamic-preview-area" style="width: 100%;"></div>
           </div>
         </div>
       </div>

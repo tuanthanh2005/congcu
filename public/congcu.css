@@ -2116,4 +2116,115 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   line-height: 1.6;
 }
 
+/* ============================================================
+   CUSTOM EBOOK TOOLS VIEW (MOCKUP STYLE)
+   ============================================================ */
+#ebook-tools {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
+}
+
+#ebook-tools .category-header .ebook-gradient {
+  background: #e0f2fe !important;
+  border: 1.5px solid #bae6fd !important;
+  border-radius: 14px;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#ebook-tools .category-header .ebook-gradient svg,
+#ebook-tools .category-header .ebook-gradient i {
+  color: #0f1123 !important;
+}
+
+#ebook-tools .tools-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1199px) {
+  #ebook-tools .tools-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  #ebook-tools .tools-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+#ebook-tools .tool-card {
+  padding: 24px 20px;
+  border-radius: 16px;
+  border: 1.5px solid #e9ebf8;
+  background: #ffffff;
+  box-shadow: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: all var(--transition);
+  position: relative;
+}
+
+#ebook-tools .tool-card:hover {
+  border-color: rgba(80, 70, 229, 0.4);
+  box-shadow: 0 8px 30px rgba(80, 70, 229, 0.08);
+  transform: translateY(-2px);
+}
+
+#ebook-tools .tool-card-icon {
+  margin-top: 2px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+#ebook-tools .tool-card-icon i {
+  color: #0f1123 !important;
+  font-size: 1.4rem;
+}
+
+#ebook-tools .tool-card-body h5 {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+#ebook-tools .tool-badge-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e2f9f0;
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 100px;
+  line-height: 1;
+}
+
+#ebook-tools .tool-card-body p {
+  color: var(--text2);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
 

@@ -347,7 +347,15 @@
     {{-- Ebook Converter --}}
     <div class="tool-category" id="ebook-tools">
       <div class="category-header">
-        <div class="cat-icon ebook-gradient"><i class="bi bi-journal-album text-info"></i></div>
+        <div class="cat-icon ebook-gradient">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="2" width="16" height="20" rx="3" stroke="#0f1123" stroke-width="2"/>
+            <circle cx="12" cy="11" r="4" stroke="#0f1123" stroke-width="2"/>
+            <path d="M12 7l2 2-2 2" stroke="#0f1123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 15l-2-2 2-2" stroke="#0f1123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 18h8" stroke="#0f1123" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
         <div>
           <h3 class="cat-title">Chuyển đổi Ebook trực tuyến</h3>
           <p class="cat-desc">Chuyển đổi EPUB, MOBI, FB2, AZW3 và các định dạng ebook khác miễn phí</p>
@@ -355,36 +363,32 @@
       </div>
       <div class="tools-grid">
         <a href="#" class="tool-card" id="tool-epub-mobi">
-          <div class="tool-card-icon text-info"><i class="bi bi-book"></i></div>
+          <div class="tool-card-icon"><i class="bi bi-book"></i></div>
           <div class="tool-card-body">
-            <h5>EPUB → MOBI</h5>
+            <h5>EPUB → MOBI <span class="tool-badge-inline">Miễn phí</span></h5>
             <p>Chuyển đổi cho Kindle</p>
           </div>
-          <span class="tool-badge free">Miễn phí</span>
         </a>
         <a href="#" class="tool-card" id="tool-mobi-epub">
-          <div class="tool-card-icon text-info"><i class="bi bi-book"></i></div>
+          <div class="tool-card-icon"><i class="bi bi-book"></i></div>
           <div class="tool-card-body">
-            <h5>MOBI → EPUB</h5>
+            <h5>MOBI → EPUB <span class="tool-badge-inline">Miễn phí</span></h5>
             <p>Chuyển đổi sang EPUB phổ biến</p>
           </div>
-          <span class="tool-badge free">Miễn phí</span>
         </a>
         <a href="#" class="tool-card" id="tool-fb2-epub">
-          <div class="tool-card-icon text-info"><i class="bi bi-book"></i></div>
+          <div class="tool-card-icon"><i class="bi bi-book"></i></div>
           <div class="tool-card-body">
-            <h5>FB2 → EPUB</h5>
+            <h5>FB2 → EPUB <span class="tool-badge-inline">Miễn phí</span></h5>
             <p>Chuyển đổi định dạng FB2</p>
           </div>
-          <span class="tool-badge free">Miễn phí</span>
         </a>
         <a href="#" class="tool-card" id="tool-azw3-epub">
-          <div class="tool-card-icon text-info"><i class="bi bi-book"></i></div>
+          <div class="tool-card-icon"><i class="bi bi-book"></i></div>
           <div class="tool-card-body">
-            <h5>AZW3 → EPUB</h5>
+            <h5>AZW3 → EPUB <span class="tool-badge-inline">Miễn phí</span></h5>
             <p>Giải phóng DRM Kindle</p>
           </div>
-          <span class="tool-badge free">Miễn phí</span>
         </a>
       </div>
     </div>

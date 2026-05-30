@@ -491,7 +491,14 @@ function openWorkspace(toolId) {
   workspaceFilesList.innerHTML = '';
   fileCountSpan.textContent = '0';
   workspacePreviewArea.innerHTML = '';
-  workspaceControls.innerHTML = '';
+  const editorLayout = document.querySelector('.editor-layout');
+  if (toolId === 'btn-tarot-start') {
+    workspaceControls.style.display = 'none';
+    if (editorLayout) editorLayout.style.gridTemplateColumns = '1fr';
+  } else {
+    workspaceControls.style.display = '';
+    if (editorLayout) editorLayout.style.gridTemplateColumns = '';
+  }
   workspaceStatusText.textContent = 'Sẵn sàng xử lý';
   workspaceSpinner.style.display = 'none';
   workspaceActionBtn.querySelector('.btn-text').textContent = 'Bắt đầu xử lý';
@@ -523,6 +530,11 @@ function closeWorkspace() {
   pdfPagesData = [];
   collageImages = [];
   tarotSelected = [];
+
+  // Reset layout settings
+  const editorLayout = document.querySelector('.editor-layout');
+  workspaceControls.style.display = '';
+  if (editorLayout) editorLayout.style.gridTemplateColumns = '';
 }
 
 // Icon markup map

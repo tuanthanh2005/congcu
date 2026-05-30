@@ -559,6 +559,81 @@
   </div>
 </footer>
 
+
+{{-- ========== TOOL WORKSPACE OVERLAY ========== --}}
+<div class="tool-workspace-overlay" id="tool-workspace" style="display: none;">
+  <div class="workspace-container">
+    {{-- Workspace Header --}}
+    <header class="workspace-header">
+      <button class="btn-back" id="workspace-back-btn">
+        <i class="bi bi-arrow-left"></i> Quay lại
+      </button>
+      <div class="workspace-title-area">
+        <span class="workspace-icon" id="workspace-icon"><i class="bi bi-tools"></i></span>
+        <div>
+          <h3 id="workspace-title">Tên Công Cụ</h3>
+          <p id="workspace-desc" class="text-muted">Mô tả công cụ</p>
+        </div>
+      </div>
+      <div class="workspace-header-actions">
+        <!-- Any secondary action could go here -->
+      </div>
+    </header>
+
+    {{-- Workspace Content --}}
+    <div class="workspace-body">
+      {{-- Drag & Drop Upload Panel (Shown initially for tools requiring files) --}}
+      <div class="upload-panel" id="workspace-upload-panel">
+        <div class="drop-zone" id="workspace-drop-zone">
+          <input type="file" id="workspace-file-input" multiple style="display: none;" />
+          <div class="drop-zone-content">
+            <i class="bi bi-cloud-arrow-up-fill upload-pulse-icon"></i>
+            <h4>Kéo và thả tệp của bạn vào đây</h4>
+            <p class="upload-hint">hoặc click để chọn tệp từ thiết bị</p>
+            <p class="upload-formats" id="workspace-formats-hint">Hỗ trợ: .pdf, .jpg, .png</p>
+          </div>
+        </div>
+        
+        {{-- Selected Files List --}}
+        <div class="selected-files-container" id="selected-files-container" style="display: none;">
+          <h5>Tệp đã chọn (<span id="file-count">0</span>)</h5>
+          <div class="files-list" id="workspace-files-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+
+      {{-- Interactive Editor/Options & Preview Area (Hidden until files uploaded, or shown immediately for tools like Tarot) --}}
+      <div class="editor-panel" id="workspace-editor-panel" style="display: none;">
+        <div class="editor-layout">
+          {{-- Left Side: Option Controls --}}
+          <div class="editor-controls" id="workspace-controls">
+            <!-- Dynamically populated options per tool -->
+          </div>
+
+          {{-- Right Side: Interactive Preview / Output --}}
+          <div class="editor-preview" id="workspace-preview-area">
+            <!-- Dynamically populated previews: PDF pages, canvas rendering, Tarot table -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{-- Workspace Footer --}}
+    <footer class="workspace-footer" id="workspace-footer-bar" style="display: none;">
+      <div class="footer-status" id="workspace-status-text">
+        Sẵn sàng xử lý
+      </div>
+      <div class="footer-actions">
+        <button class="btn-primary btn-action" id="workspace-action-btn">
+          <span class="btn-text">Bắt đầu xử lý</span>
+          <span class="spinner" id="workspace-spinner" style="display: none;"></span>
+        </button>
+      </div>
+    </footer>
+  </div>
+</div>
+
 <script src="{{ asset('congcu.js') }}"></script>
 </body>
 </html>

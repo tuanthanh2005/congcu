@@ -616,9 +616,13 @@ async function handleFileSelection(files) {
   workspaceFooterBar.style.display = 'flex';
 
   // Specific workspace loading depending on tool types
-  if (currentToolId.includes('pdf')) {
+  if (currentToolId === 'tool-jpg-pdf') {
+    renderImageToolPreviews();
+  } else if (['tool-word-pdf', 'tool-excel-pdf', 'tool-ppt-pdf'].includes(currentToolId)) {
+    renderOfficeToPdfPreview(selectedFiles[0]);
+  } else if (currentToolId.includes('pdf')) {
     await loadPdfLibraries();
-    if (['tool-edit-pdf', 'tool-split-pdf', 'tool-rotate-pdf', 'tool-sign-pdf', 'tool-watermark-pdf'].includes(currentToolId)) {
+    if (['tool-edit-pdf', 'tool-split-pdf', 'tool-rotate-pdf', 'tool-sign-pdf', 'tool-watermark-pdf', 'tool-pdf-word', 'tool-pdf-jpg', 'tool-pdf-excel', 'tool-pdf-ppt'].includes(currentToolId)) {
       await loadPdfPreviews(selectedFiles[0]);
     } else {
       // Mock converters
@@ -992,6 +996,125 @@ function renderToolControls() {
     `;
     setupSliderListeners('image-quality-slider', 'val-image-quality', '%');
 
+  } else if (currentToolId === 'tool-pdf-word') {
+    workspaceControls.innerHTML = `
+      <div class="control-group">
+        <label class="control-label">Chế độ chuyển đổi</label>
+        <select class="form-input" id="pdf-word-mode">
+          <option value="standard">Chuyển đổi tiêu chuẩn (Giữ nguyên bố cục)</option>
+          <option value="ocr">Nhận dạng chữ viết (OCR - Khuyên dùng cho bản quét)</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Định dạng tệp đầu ra</label>
+        <select class="form-input" id="pdf-word-ext">
+          <option value="docx">Word (.docx)</option>
+          <option value="doc">Word 97-2003 (.doc)</option>
+        </select>
+      </div>
+    `;
+  } else if (currentToolId === 'tool-pdf-jpg') {
+    workspaceControls.innerHTML = `
+      <div class="control-group">
+        <label class="control-label">Độ phân giải hình ảnh</label>
+        <select class="form-input" id="pdf-jpg-resolution">
+          <option value="150">Độ phân giải tiêu chuẩn (150 DPI)</option>
+          <option value="300">Độ phân giải cao (300 DPI - Sắc nét)</option>
+          <option value="72">Độ phân giải thấp (72 DPI - Dung lượng nhỏ)</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Định dạng ảnh</label>
+        <select class="form-input" id="pdf-jpg-format">
+          <option value="image/jpeg">JPG (.jpg)</option>
+          <option value="image/png">PNG (.png)</option>
+        </select>
+      </div>
+    `;
+  } else if (currentToolId === 'tool-pdf-excel') {
+    workspaceControls.innerHTML = `
+      <div class="control-group">
+        <label class="control-label">Tùy chọn bảng tính</label>
+        <select class="form-input" id="pdf-excel-sheets">
+          <option value="single">Gộp tất cả trang vào một sheet</option>
+          <option value="multi">Mỗi trang PDF thành một sheet riêng</option>
+        </select>
+      </div>
+    `;
+  } else if (currentToolId === 'tool-pdf-ppt') {
+    workspaceControls.innerHTML = `
+      <div class="control-group">
+        <label class="control-label">Bố cục Slide</label>
+        <select class="form-input" id="pdf-ppt-layout">
+          <option value="fit">Vừa trang màn hình (Widescreen 16:9)</option>
+          <option value="standard">Bố cục tiêu chuẩn (4:3)</option>
+        </select>
+      </div>
+    `;
+  } else if (currentToolId === 'tool-word-pdf') {
+    workspaceControls.innerHTML = `
+      <div class="control-group">
+        <label class="control-label">Chất lượng tệp PDF</label>
+        <select class="form-input" id="word-pdf-quality">
+          <option value="high">Chất lượng in ấn (High Quality Print)</option>
+          <option value="standard">Tối ưu hóa hiển thị web (Standard)</option>
+        </select>
+      </div>
+    `;
+  } else if (currentToolId === 'tool-excel-pdf') {
+    workspaceControls.innerHTML = `
+      <div class="control-group">
+        <label class="control-label">Phạm vi chuyển đổi</label>
+        <select class="form-input" id="excel-pdf-sheets">
+          <option value="all">Chuyển đổi toàn bộ bảng tính (All Sheets)</option>
+          <option value="active">Chỉ chuyển đổi sheet hiện hành</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Hướng trang</label>
+        <select class="form-input" id="excel-pdf-orientation">
+          <option value="landscape">Nằm ngang (Khuyên dùng cho bảng tính rộng)</option>
+          <option value="portrait">Nằm dọc (Portrait)</option>
+        </select>
+      </div>
+    `;
+  } else if (currentToolId === 'tool-ppt-pdf') {
+    workspaceControls.innerHTML = `
+      <div class="control-group">
+        <label class="control-label">Độ phân giải slide</label>
+        <select class="form-input" id="ppt-pdf-resolution">
+          <option value="1080">Full HD 1080p (Sắc nét)</option>
+          <option value="720">HD 720p (Dung lượng vừa phải)</option>
+        </select>
+      </div>
+    `;
+  } else if (currentToolId === 'tool-jpg-pdf') {
+    workspaceControls.innerHTML = `
+      <div class="control-group">
+        <label class="control-label">Hướng trang</label>
+        <select class="form-input" id="jpg-pdf-orientation">
+          <option value="portrait">Nằm dọc (Portrait)</option>
+          <option value="landscape">Nằm ngang (Landscape)</option>
+          <option value="auto">Tự động xoay theo ảnh</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Khổ trang</label>
+        <select class="form-input" id="jpg-pdf-size">
+          <option value="a4">Khổ A4 (210 x 297 mm)</option>
+          <option value="letter">Khổ US Letter</option>
+          <option value="fit">Vừa khít kích thước ảnh</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Kích thước lề</label>
+        <select class="form-input" id="jpg-pdf-margin">
+          <option value="none">Không lề (No margin)</option>
+          <option value="small">Lề nhỏ (20px)</option>
+          <option value="large">Lề lớn (40px)</option>
+        </select>
+      </div>
+    `;
   } else if (currentToolId.includes('pdf-') || currentToolId.includes('-pdf') || currentToolId.includes('epub') || currentToolId.includes('mobi')) {
     // Other converters
     workspaceControls.innerHTML = `
@@ -1216,31 +1339,49 @@ function renderImageToolPreviews() {
 }
 
 // Render mock pipeline for conversions
-function renderMockPipelinePreviews() {
+function renderMockPipelinePreviews(stepsArray) {
+  const defaultSteps = [
+    { title: "Đọc dữ liệu tập tin", desc: "Phân tích dữ liệu cấu trúc nguồn tệp tin..." },
+    { title: "Phân tích & Tối ưu bố cục", desc: "Trích xuất hình ảnh, phông chữ và định dạng..." },
+    { title: "Tạo tệp đích", desc: "Chuyển đổi thành cấu trúc nhị phân của định dạng mới..." }
+  ];
+  const steps = stepsArray || defaultSteps;
+
   workspacePreviewArea.innerHTML = `
     <div class="pipeline-container">
       <div class="pipeline-steps">
-        <div class="pipeline-step active" id="step-1">
-          <div class="pipeline-step-check">1</div>
-          <div class="pipeline-step-info">
-            <h6>Đọc dữ liệu tập tin</h6>
-            <p>Phân tích dữ liệu cấu trúc nguồn tệp tin...</p>
+        ${steps.map((step, idx) => `
+          <div class="pipeline-step ${idx === 0 ? 'active' : ''}" id="step-${idx + 1}">
+            <div class="pipeline-step-check">${idx + 1}</div>
+            <div class="pipeline-step-info">
+              <h6>${step.title}</h6>
+              <p>${step.desc}</p>
+            </div>
           </div>
-        </div>
-        <div class="pipeline-step" id="step-2">
-          <div class="pipeline-step-check">2</div>
-          <div class="pipeline-step-info">
-            <h6>Phân tích & Tối ưu bố cục</h6>
-            <p>Trích xuất hình ảnh, phông chữ và định dạng...</p>
-          </div>
-        </div>
-        <div class="pipeline-step" id="step-3">
-          <div class="pipeline-step-check">3</div>
-          <div class="pipeline-step-info">
-            <h6>Tạo tệp đích</h6>
-            <p>Chuyển đổi thành cấu trúc nhị phân của định dạng mới...</p>
-          </div>
-        </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// Render Office to PDF preview
+function renderOfficeToPdfPreview(file) {
+  let fileIcon = 'bi-file-earmark-word-fill text-primary';
+  if (currentToolId.includes('excel')) {
+    fileIcon = 'bi-file-earmark-excel-fill text-success';
+  } else if (currentToolId.includes('ppt')) {
+    fileIcon = 'bi-file-earmark-ppt-fill text-danger';
+  }
+  
+  workspacePreviewArea.innerHTML = `
+    <div style="text-align: center; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;">
+      <div style="position: relative; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center;">
+        <div style="position: absolute; inset: 0; border-radius: 50%; background: var(--primary-light); animation: pulseScale 2s infinite; opacity: 0.5;"></div>
+        <i class="bi ${fileIcon}" style="font-size: 4.5rem; position: relative; z-index: 1;"></i>
+      </div>
+      <div>
+        <h5 style="font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 6px;">${file.name}</h5>
+        <p class="text-muted" style="font-size: 0.8rem;">Sẵn sàng chuyển đổi thành tài liệu PDF chuẩn hóa</p>
       </div>
     </div>
   `;
@@ -1520,6 +1661,180 @@ workspaceActionBtn.addEventListener('click', async () => {
         }, format, 0.95);
       }
 
+    } else if (currentToolId === 'tool-jpg-pdf') {
+      const orientation = document.getElementById('jpg-pdf-orientation').value;
+      const pageSizeSelect = document.getElementById('jpg-pdf-size').value;
+      const marginSelect = document.getElementById('jpg-pdf-margin').value;
+      
+      const pdfDoc = await PDFLib.PDFDocument.create();
+      const margin = marginSelect === 'none' ? 0 : (marginSelect === 'small' ? 20 : 40);
+
+      for (const file of selectedFiles) {
+        const imgBytes = await file.arrayBuffer();
+        let img;
+        if (file.name.toLowerCase().endsWith('.png')) {
+          img = await pdfDoc.embedPng(imgBytes);
+        } else if (file.name.toLowerCase().endsWith('.webp')) {
+          const loadedImg = await loadImageFromFile(file);
+          const canvas = document.createElement('canvas');
+          canvas.width = loadedImg.width;
+          canvas.height = loadedImg.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(loadedImg, 0, 0);
+          const dataUrl = canvas.toDataURL('image/png');
+          const pngBytes = await (await fetch(dataUrl)).arrayBuffer();
+          img = await pdfDoc.embedPng(pngBytes);
+        } else {
+          img = await pdfDoc.embedJpg(imgBytes);
+        }
+
+        let pageWidth = 595.276;
+        let pageHeight = 841.890;
+        
+        if (pageSizeSelect === 'letter') {
+          pageWidth = 612;
+          pageHeight = 792;
+        }
+
+        let isLandscape = false;
+        if (orientation === 'landscape' || (orientation === 'auto' && img.width > img.height)) {
+          isLandscape = true;
+        }
+
+        if (isLandscape) {
+          const temp = pageWidth;
+          pageWidth = pageHeight;
+          pageHeight = temp;
+        }
+
+        if (pageSizeSelect === 'fit') {
+          pageWidth = img.width + margin * 2;
+          pageHeight = img.height + margin * 2;
+        }
+
+        const page = pdfDoc.addPage([pageWidth, pageHeight]);
+        const maxWidth = pageWidth - margin * 2;
+        const maxHeight = pageHeight - margin * 2;
+        const scaled = img.scaleToFit(maxWidth, maxHeight);
+        
+        const x = margin + (maxWidth - scaled.width) / 2;
+        const y = margin + (maxHeight - scaled.height) / 2;
+
+        page.drawImage(img, {
+          x: x,
+          y: y,
+          width: scaled.width,
+          height: scaled.height
+        });
+      }
+
+      const pdfBytes = await pdfDoc.save();
+      downloadBlob(new Blob([pdfBytes], { type: 'application/pdf' }), 'chuyen-doi-hinh-anh.pdf');
+
+    } else if (currentToolId === 'tool-pdf-jpg') {
+      const resolution = parseFloat(document.getElementById('pdf-jpg-resolution').value) || 150;
+      const format = document.getElementById('pdf-jpg-format').value || 'image/jpeg';
+      const ext = format === 'image/png' ? 'png' : 'jpg';
+      const scale = resolution / 96;
+      
+      const arrayBuffer = await selectedFiles[0].arrayBuffer();
+      const pdfDoc = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      const totalPages = pdfDoc.numPages;
+
+      for (let i = 1; i <= totalPages; i++) {
+        const page = await pdfDoc.getPage(i);
+        const viewport = page.getViewport({ scale: scale });
+        const canvas = document.createElement('canvas');
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        const context = canvas.getContext('2d');
+        await page.render({ canvasContext: context, viewport: viewport }).promise;
+        
+        canvas.toBlob((blob) => {
+          downloadBlob(blob, `trang-${i}-${selectedFiles[0].name.replace(/\.[^/.]+$/, "")}.${ext}`);
+        }, format, 0.95);
+      }
+
+    } else if (['tool-pdf-word', 'tool-pdf-excel', 'tool-pdf-ppt', 'tool-word-pdf', 'tool-excel-pdf', 'tool-ppt-pdf'].includes(currentToolId)) {
+      let steps = [
+        { title: "Đọc cấu trúc file", desc: "Phân tích nội dung và tài nguyên..." },
+        { title: "Chuyển đổi bố cục", desc: "Khớp định dạng phông chữ và bảng biểu..." },
+        { title: "Kết xuất file đích", desc: "Đang đóng gói tệp tin kết quả..." }
+      ];
+      
+      let targetExt = 'docx';
+      if (currentToolId === 'tool-pdf-word') {
+        const ext = document.getElementById('pdf-word-ext').value;
+        targetExt = ext;
+        steps = [
+          { title: "Đọc cấu trúc file PDF", desc: "Quét và phân tích văn bản nguồn..." },
+          { title: "Nhận dạng chữ viết & trích xuất văn bản", desc: "Đang xây dựng bố cục tài liệu Word..." },
+          { title: "Kết xuất file Word ." + ext, desc: "Đang đóng gói tài liệu DOCX/DOC..." }
+        ];
+      } else if (currentToolId === 'tool-pdf-excel') {
+        targetExt = 'xlsx';
+        steps = [
+          { title: "Đọc cấu trúc file PDF", desc: "Quét các bảng dữ liệu gốc..." },
+          { title: "Phát hiện và định vị bảng biểu", desc: "Đang chuyển dữ liệu thành lưới bảng tính..." },
+          { title: "Kết xuất bảng tính Excel .xlsx", desc: "Đang tối ưu cấu trúc cột hàng..." }
+        ];
+      } else if (currentToolId === 'tool-pdf-ppt') {
+        targetExt = 'pptx';
+        steps = [
+          { title: "Đọc cấu trúc file PDF", desc: "Phân tích tỷ lệ khung hình slide..." },
+          { title: "Trích xuất bố cục trang Slide", desc: "Đang chuyển các vector và văn bản..." },
+          { title: "Kết xuất bài thuyết trình PowerPoint .pptx", desc: "Đang tạo các trang slide tương thích..." }
+        ];
+      } else if (currentToolId === 'tool-word-pdf') {
+        targetExt = 'pdf';
+        steps = [
+          { title: "Đọc cấu trúc file Word", desc: "Đang đọc văn bản và lề trang..." },
+          { title: "Dàn trang & định dạng phông chữ", desc: "Đang chuyển đổi phông chữ và hình ảnh..." },
+          { title: "Kết xuất tài liệu PDF chuẩn", desc: "Đang đóng gói tệp PDF chất lượng cao..." }
+        ];
+      } else if (currentToolId === 'tool-excel-pdf') {
+        targetExt = 'pdf';
+        steps = [
+          { title: "Đọc cấu trúc bảng tính Excel", desc: "Đang phân tích các dòng cột và sheet..." },
+          { title: "Tính toán trang in và căn lề rộng", desc: "Đang chuyển đổi lưới sang trang tĩnh..." },
+          { title: "Kết xuất tài liệu PDF chuẩn", desc: "Đang đóng gói tệp PDF..." }
+        ];
+      } else if (currentToolId === 'tool-ppt-pdf') {
+        targetExt = 'pdf';
+        steps = [
+          { title: "Đọc Slide PowerPoint", desc: "Đang phân tích tài nguyên hình ảnh..." },
+          { title: "Trích xuất tài nguyên hình ảnh & vector", desc: "Đang dàn trang các slide thuyết trình..." },
+          { title: "Kết xuất tài liệu PDF chuẩn", desc: "Đang đóng gói tệp PDF chuẩn in ấn..." }
+        ];
+      }
+
+      renderMockPipelinePreviews(steps);
+
+      const step1 = document.getElementById('step-1');
+      const step2 = document.getElementById('step-2');
+      const step3 = document.getElementById('step-3');
+
+      step1.classList.add('active');
+      workspaceStatusText.textContent = steps[0].title + "...";
+      await new Promise(r => setTimeout(r, 1200));
+
+      step1.classList.add('completed');
+      step2.classList.add('active');
+      workspaceStatusText.textContent = steps[1].title + "...";
+      await new Promise(r => setTimeout(r, 1200));
+
+      step2.classList.add('completed');
+      step3.classList.add('active');
+      workspaceStatusText.textContent = steps[2].title + "...";
+      await new Promise(r => setTimeout(r, 1000));
+
+      step3.classList.add('completed');
+      workspaceStatusText.textContent = "Hoàn tất! Đang tải về tệp tin chuyển đổi.";
+
+      const blobText = `CongCuPro Converter Output\n\nChúc mừng! Tệp ${selectedFiles[0].name} đã được chuyển đổi thành công sang định dạng ${targetExt.toUpperCase()} lúc ${new Date().toLocaleString()}.`;
+      const blob = new Blob([blobText], { type: 'text/plain;charset=utf-8' });
+      downloadBlob(blob, selectedFiles[0].name.replace(/\.[^/.]+$/, "") + '_converted.' + targetExt);
+
     } else if (currentToolId === 'tool-compress-img') {
       const qual = parseFloat(document.getElementById('image-quality-slider').value) / 100 || 0.8;
       for (const file of selectedFiles) {
@@ -1542,29 +1857,35 @@ workspaceActionBtn.addEventListener('click', async () => {
       }
 
     } else {
-      // Mock converters (Ebooks, Word/Excel to PDF)
+      // Mock converters (Ebooks)
+      const steps = [
+        { title: "Đọc dữ liệu tập tin", desc: "Phân tích dữ liệu cấu trúc nguồn tệp tin..." },
+        { title: "Phân tích & Tối ưu bố cục", desc: "Trích xuất hình ảnh, phông chữ và định dạng..." },
+        { title: "Tạo tệp đích", desc: "Chuyển đổi thành cấu trúc nhị phân của định dạng mới..." }
+      ];
+      renderMockPipelinePreviews(steps);
+
       const step1 = document.getElementById('step-1');
       const step2 = document.getElementById('step-2');
       const step3 = document.getElementById('step-3');
 
       step1.classList.add('active');
-      workspaceStatusText.textContent = "Đang tải dữ liệu và phân tích cấu trúc...";
+      workspaceStatusText.textContent = steps[0].title + "...";
       await new Promise(r => setTimeout(r, 1200));
 
       step1.classList.add('completed');
       step2.classList.add('active');
-      workspaceStatusText.textContent = "Đang kết xuất phông chữ và hình ảnh...";
+      workspaceStatusText.textContent = steps[1].title + "...";
       await new Promise(r => setTimeout(r, 1200));
 
       step2.classList.add('completed');
       step3.classList.add('active');
-      workspaceStatusText.textContent = "Đang đóng gói tệp tin đích...";
+      workspaceStatusText.textContent = steps[2].title + "...";
       await new Promise(r => setTimeout(r, 1000));
 
       step3.classList.add('completed');
       workspaceStatusText.textContent = "Hoàn tất! Đang tải về tệp tin chuyển đổi.";
 
-      // Download mock file matching targets
       const targetExt = currentToolId.endsWith('mobi') ? 'mobi' : (currentToolId.endsWith('epub') ? 'epub' : 'pdf');
       const blobText = `CongCuPro Converter Output\n\nChúc mừng! Tệp ${selectedFiles[0].name} đã được chuyển đổi thành công sang định dạng ${targetExt.toUpperCase()} lúc ${new Date().toLocaleString()}.`;
       const blob = new Blob([blobText], { type: 'text/plain;charset=utf-8' });

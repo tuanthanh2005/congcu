@@ -2005,3 +2005,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   }
 }
 
+@keyframes pulseScale {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.12); opacity: 0.8; }
+}
+
+

@@ -96,16 +96,21 @@
       </div>
 
       {{-- Shop Dropdown --}}
-      <div class="nav-item has-dropdown">
+      <div class="nav-item has-dropdown nav-item-shop">
         <button class="nav-link dropdown-toggle" id="shop-toggle">
-          <i class="bi bi-cart3 nav-icon"></i> Cửa hàng
-          <svg class="chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          <span class="mobile-chevron-left"><i class="bi bi-chevron-down"></i></span>
+          <span class="shop-badge-capsule">
+            <i class="bi bi-cart3 nav-icon"></i> Cửa hàng
+            <i class="bi bi-chevron-up chevron-up-icon"></i>
+          </span>
+          <svg class="chevron desktop-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          <span class="mobile-list-right"><i class="bi bi-list-task"></i></span>
         </button>
         <div class="dropdown-panel" id="shop-dropdown">
           <div class="dropdown-grid single">
             <div class="dropdown-col">
-              <a href="#" class="dropdown-item"><i class="bi bi-robot text-primary"></i> Mua AI</a>
-              <a href="#" class="dropdown-item"><i class="bi bi-laptop text-success"></i> Mua Phần mềm</a>
+              <a href="#" class="dropdown-item"><i class="bi bi-robot"></i> Mua AI</a>
+              <a href="#" class="dropdown-item"><i class="bi bi-laptop"></i> Mua Phần mềm</a>
             </div>
           </div>
         </div>

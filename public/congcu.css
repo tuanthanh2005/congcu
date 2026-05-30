@@ -2239,4 +2239,101 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   line-height: 1.6;
 }
 
+/* ============================================================
+   CUSTOM NAVBAR SHOP DROPDOWN (MOCKUP STYLE)
+   ============================================================ */
+.mobile-chevron-left,
+.mobile-list-right,
+.chevron-up-icon {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  /* Hide desktop chevron on mobile */
+  .nav-item-shop .desktop-chevron {
+    display: none !important;
+  }
+
+  /* Make nav-link flex container to layout icons on left/right and capsule in middle */
+  .nav-item-shop .nav-link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 12px 14px !important;
+  }
+
+  /* Left chevron */
+  .nav-item-shop .mobile-chevron-left {
+    display: inline-flex !important;
+    align-items: center;
+    color: #5a5f80;
+    font-size: 1.1rem;
+    transition: transform var(--transition);
+  }
+  .nav-item-shop.open .mobile-chevron-left {
+    transform: rotate(180deg);
+  }
+
+  /* Purple capsule button in the middle */
+  .nav-item-shop .shop-badge-capsule {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 8px;
+    background: #ede9fe !important;
+    color: #5046e5 !important;
+    border: 1.5px solid rgba(80, 70, 229, 0.18);
+    border-radius: 100px !important;
+    padding: 6px 16px !important;
+    font-weight: 700 !important;
+    font-size: 0.9rem !important;
+    box-shadow: 0 2px 8px rgba(80, 70, 229, 0.08);
+  }
+
+  .nav-item-shop .chevron-up-icon {
+    display: inline-block !important;
+    font-size: 0.85rem;
+    margin-left: 2px;
+  }
+
+  /* Right list icon */
+  .nav-item-shop .mobile-list-right {
+    display: inline-flex !important;
+    align-items: center;
+    color: #5a5f80;
+    font-size: 1.25rem;
+  }
+
+  /* Dropdown sub-items accordion styling */
+  .nav-item-shop .dropdown-panel {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 0 0 46px !important; /* Indent to align below capsule */
+    margin-top: 4px;
+    box-shadow: none !important;
+  }
+
+  .nav-item-shop .dropdown-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 10px 0 !important;
+    font-size: 0.95rem !important;
+    color: #5a5f80 !important;
+    font-weight: 500 !important;
+    background: transparent !important;
+  }
+
+  .nav-item-shop .dropdown-item:hover {
+    color: var(--primary) !important;
+  }
+
+  .nav-item-shop .dropdown-item i {
+    color: #5a5f80 !important;
+    font-size: 1.25rem !important;
+  }
+}
+
 

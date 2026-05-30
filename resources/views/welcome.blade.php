@@ -288,39 +288,61 @@
     {{-- Image Tools --}}
     <div class="tool-category" id="image-tools">
       <div class="category-header">
-        <div class="cat-icon img-gradient"><i class="bi bi-image-fill text-warning"></i></div>
+        <div class="cat-icon img-gradient"><i class="bi bi-image-fill"></i></div>
         <div>
           <h3 class="cat-title">Công cụ Ảnh</h3>
           <p class="cat-desc">Chuyển đổi và tối ưu hình ảnh dễ dàng</p>
         </div>
       </div>
       <div class="tools-grid">
-        <a href="#" class="tool-card featured" id="tool-collage-img">
-          <div class="tool-card-icon text-warning"><i class="bi bi-grid-3x3-gap-fill"></i></div>
+        <a href="#" class="tool-card" id="tool-collage-img">
+          <div class="tool-card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="3" width="5" height="5" rx="1" fill="#1e293b" />
+              <rect x="9.5" y="3" width="5" height="5" rx="1" fill="#1e293b" />
+              <rect x="16" y="3" width="5" height="5" rx="1" fill="#1e293b" />
+              <rect x="3" y="9.5" width="5" height="5" rx="1" fill="#1e293b" />
+              <rect x="9.5" y="9.5" width="5" height="5" rx="1" fill="#1e293b" />
+              <rect x="16" y="9.5" width="5" height="5" rx="1" fill="#1e293b" />
+              <rect x="3" y="16" width="5" height="5" rx="1" fill="#1e293b" />
+              <rect x="9.5" y="16" width="5" height="5" rx="1" fill="#1e293b" />
+              <rect x="16" y="16" width="5" height="5" rx="1" fill="#1e293b" />
+            </svg>
+          </div>
           <div class="tool-card-body">
-            <h5>Ghép ảnh online</h5>
+            <h5>Ghép ảnh online <span class="tool-badge-inline">Miễn phí</span></h5>
             <p>Ghép nhiều ảnh thành một khung hình với nhiều bố cục lưới, khoảng cách, bo góc và màu nền tùy chỉnh.</p>
           </div>
-          <span class="tool-badge free">Miễn phí</span>
         </a>
-        <a href="#" class="tool-card featured" id="tool-webp-jpg">
-          <div class="tool-card-icon text-warning"><i class="bi bi-arrow-left-right"></i></div>
+        <a href="#" class="tool-card" id="tool-webp-jpg">
+          <div class="tool-card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 8h16M20 8l-4-4M20 8l-4 4" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M20 16H4M4 16l4 4M4 16l4-4" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
           <div class="tool-card-body">
-            <h5>WEBP sang JPG</h5>
+            <h5>WEBP sang JPG <span class="tool-badge-inline">Miễn phí</span></h5>
             <p>Chuyển WEBP sang JPG — tương thích mọi thiết bị</p>
           </div>
-          <span class="tool-badge free">Miễn phí</span>
         </a>
-        <a href="#" class="tool-card featured" id="tool-compress-img">
-          <div class="tool-card-icon text-warning"><i class="bi bi-file-zip-fill"></i></div>
+        <a href="#" class="tool-card" id="tool-compress-img">
+          <div class="tool-card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="7" y="2" width="10" height="20" rx="3" fill="#1e293b" />
+              <path d="M12 5V13" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <rect x="10" y="11" width="4" height="6" rx="1" fill="#ffffff" stroke="#1e293b" stroke-width="1" />
+              <circle cx="12" cy="14" r="1" fill="#1e293b" />
+            </svg>
+          </div>
           <div class="tool-card-body">
-            <h5>Nén ảnh</h5>
+            <h5>Nén ảnh <span class="tool-badge-inline">Miễn phí</span></h5>
             <p>Nén JPG, PNG, SVG, GIF với chất lượng tốt nhất. Giảm kích thước nhiều ảnh cùng lúc.</p>
           </div>
-          <span class="tool-badge free">Miễn phí</span>
         </a>
       </div>
     </div>
+
 
     {{-- Ebook Converter --}}
     <div class="tool-category" id="ebook-tools">

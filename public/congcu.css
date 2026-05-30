@@ -2010,4 +2010,110 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   50% { transform: scale(1.12); opacity: 0.8; }
 }
 
+/* ============================================================
+   CUSTOM IMAGE TOOLS VIEW (MOCKUP STYLE)
+   ============================================================ */
+#image-tools {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
+}
+
+#image-tools .category-header .img-gradient {
+  background: #ffedd5 !important;
+  border: 1.5px solid #fed7aa !important;
+  border-radius: 14px;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#image-tools .category-header .img-gradient i {
+  color: #0f1123 !important;
+  font-size: 1.5rem;
+}
+
+#image-tools .tools-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 991px) {
+  #image-tools .tools-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  #image-tools .tools-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+#image-tools .tool-card {
+  padding: 24px;
+  border-radius: 16px;
+  border: 1.5px solid #e9ebf8;
+  background: #ffffff;
+  box-shadow: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: all var(--transition);
+  position: relative;
+}
+
+#image-tools .tool-card:hover {
+  border-color: rgba(80, 70, 229, 0.4);
+  box-shadow: 0 8px 30px rgba(80, 70, 229, 0.08);
+  transform: translateY(-2px);
+}
+
+#image-tools .tool-card-icon {
+  margin-top: 2px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+#image-tools .tool-card-body h5 {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+#image-tools .tool-badge-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e2f9f0;
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 100px;
+  line-height: 1;
+}
+
+#image-tools .tool-card-body p {
+  color: var(--text2);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
 

@@ -608,7 +608,25 @@
         <div class="editor-layout">
           {{-- Left Side: Option Controls --}}
           <div class="editor-controls" id="workspace-controls">
-            <!-- Dynamically populated options per tool -->
+            @include('tools.edit-pdf')
+            @include('tools.split-pdf')
+            @include('tools.merge-pdf')
+            @include('tools.compress-pdf')
+            @include('tools.watermark-pdf')
+            @include('tools.rotate-pdf')
+            @include('tools.sign-pdf')
+            @include('tools.pdf-word')
+            @include('tools.pdf-jpg')
+            @include('tools.pdf-excel')
+            @include('tools.pdf-ppt')
+            @include('tools.word-pdf')
+            @include('tools.excel-pdf')
+            @include('tools.ppt-pdf')
+            @include('tools.jpg-pdf')
+            @include('tools.collage-img')
+            @include('tools.webp-jpg')
+            @include('tools.compress-img')
+            @include('tools.ebook')
           </div>
 
           {{-- Right Side: Interactive Preview / Output --}}

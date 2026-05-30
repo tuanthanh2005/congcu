@@ -809,100 +809,50 @@ async function loadCollageImages() {
   workspaceStatusText.textContent = `Đã tải ${collageImages.length} hình ảnh thành công.`;
 }
 
-// Render dynamic controls
+// Render dynamic controls (now handles showing/hiding pre-rendered Blade panels)
 function renderToolControls() {
-  workspaceControls.innerHTML = '';
-  
-  if (currentToolId === 'tool-edit-pdf' || currentToolId === 'tool-template-pdf') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Thêm văn bản vào trang đầu</label>
-        <input type="text" class="form-input" id="pdf-edit-text" placeholder="Nhập chữ cần chèn..." value="Bản chỉnh sửa Công Cụ Pro">
-      </div>
-      <div class="control-group">
-        <label class="control-label">Cỡ chữ</label>
-        <div class="range-container">
-          <input type="range" class="range-slider" id="pdf-edit-fontsize" min="12" max="64" value="24">
-          <span class="range-val" id="val-pdf-fontsize">24px</span>
-        </div>
-      </div>
-    `;
-    setupSliderListeners('pdf-edit-fontsize', 'val-pdf-fontsize', 'px');
+  // Hide all option containers
+  document.querySelectorAll('.tool-options-container').forEach(container => {
+    container.style.display = 'none';
+  });
 
-  } else if (currentToolId === 'tool-split-pdf') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Phương thức chia</label>
-        <select class="form-input" id="split-mode-select">
-          <option value="range">Chia theo khoảng trang</option>
-          <option value="all">Tách toàn bộ các trang</option>
-        </select>
-      </div>
-      <div class="control-group" id="split-range-group">
-        <label class="control-label">Khoảng trang (ví dụ: 1-3 hoặc 2,4)</label>
-        <input type="text" class="form-input" id="split-pages-input" value="1-2" placeholder="1-3 hoặc 2,5">
-      </div>
-    `;
-    const splitMode = document.getElementById('split-mode-select');
+  // Show active container
+  const activeContainer = document.getElementById('options-' + currentToolId);
+  if (activeContainer) {
+    activeContainer.style.display = 'block';
+  }
+
+  // Specific initializations if needed
+  if (currentToolId === 'tool-sign-pdf') {
+    setupSignaturePad();
+  }
+}
+
+// Initialize all listeners for the Blade option panels once at startup
+function initToolControlsListeners() {
+  // Slider value change indicators
+  setupSliderListeners('pdf-edit-fontsize', 'val-pdf-fontsize', 'px');
+  setupSliderListeners('pdf-template-fontsize', 'val-pdf-template-fontsize', 'px');
+  setupSliderListeners('watermark-opacity', 'val-watermark-opacity', '%');
+  setupSliderListeners('image-quality-slider', 'val-image-quality', '%');
+  setupSliderListeners('collage-gap-slider', 'val-collage-gap', 'px');
+  setupSliderListeners('collage-round-slider', 'val-collage-round', 'px');
+
+  // Split PDF mode option toggler
+  const splitMode = document.getElementById('split-mode-select');
+  if (splitMode) {
     splitMode.addEventListener('change', () => {
-      document.getElementById('split-range-group').style.display = splitMode.value === 'range' ? 'flex' : 'none';
+      const rangeGroup = document.getElementById('split-range-group');
+      if (rangeGroup) {
+        rangeGroup.style.display = splitMode.value === 'range' ? 'flex' : 'none';
+      }
     });
+  }
 
-  } else if (currentToolId === 'tool-merge-pdf') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Thứ tự ghép nối</label>
-        <p class="upload-hint" style="margin-bottom:0">Các tài liệu sẽ được gộp theo thứ tự từ trên xuống dưới trong danh sách tập tin đã chọn.</p>
-      </div>
-    `;
-
-  } else if (currentToolId === 'tool-compress-pdf') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Mức độ nén</label>
-        <select class="form-input" id="compress-level-select">
-          <option value="medium">Nén trung bình (Chất lượng & Dung lượng tốt)</option>
-          <option value="high">Nén tối đa (Dung lượng thấp nhất, chất lượng giảm)</option>
-          <option value="low">Nén nhẹ (Chất lượng hình ảnh sắc nét)</option>
-        </select>
-      </div>
-    `;
-
-  } else if (currentToolId === 'tool-watermark-pdf') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Nội dung đóng dấu</label>
-        <input type="text" class="form-input" id="watermark-text" value="CONGCUPRO.COM" placeholder="Nhập chữ đóng dấu...">
-      </div>
-      <div class="control-group">
-        <label class="control-label">Độ mờ đục</label>
-        <div class="range-container">
-          <input type="range" class="range-slider" id="watermark-opacity" min="10" max="100" value="30">
-          <span class="range-val" id="val-watermark-opacity">30%</span>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label">Màu sắc</label>
-        <div class="color-picker-container">
-          <input type="color" class="color-swatch-input" id="watermark-color" value="#5046e5">
-          <span style="font-size:0.85rem">Chọn màu chữ</span>
-        </div>
-      </div>
-    `;
-    setupSliderListeners('watermark-opacity', 'val-watermark-opacity', '%');
-
-  } else if (currentToolId === 'tool-rotate-pdf') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Xoay nhanh tất cả trang</label>
-        <div class="layout-presets" style="grid-template-columns: 1fr 1fr">
-          <button class="btn-layout-preset" id="btn-rotate-all-cw"><i class="bi bi-arrow-clockwise"></i> Phải 90°</button>
-          <button class="btn-layout-preset" id="btn-rotate-all-ccw"><i class="bi bi-arrow-counterclockwise"></i> Trái 90°</button>
-        </div>
-      </div>
-    `;
-    
-    document.getElementById('btn-rotate-all-cw').addEventListener('click', () => {
+  // Rotate all PDF pages helper buttons
+  const btnRotateCw = document.getElementById('btn-rotate-all-cw');
+  if (btnRotateCw) {
+    btnRotateCw.addEventListener('click', () => {
       pdfPagesData.forEach(p => {
         p.rotation = (p.rotation + 90) % 360;
       });
@@ -910,7 +860,11 @@ function renderToolControls() {
         canvas.style.transform = `rotate(${pdfPagesData[idx].rotation}deg)`;
       });
     });
-    document.getElementById('btn-rotate-all-ccw').addEventListener('click', () => {
+  }
+
+  const btnRotateCcw = document.getElementById('btn-rotate-all-ccw');
+  if (btnRotateCcw) {
+    btnRotateCcw.addEventListener('click', () => {
       pdfPagesData.forEach(p => {
         p.rotation = (p.rotation + 270) % 360;
       });
@@ -918,213 +872,34 @@ function renderToolControls() {
         canvas.style.transform = `rotate(${pdfPagesData[idx].rotation}deg)`;
       });
     });
+  }
 
-  } else if (currentToolId === 'tool-sign-pdf') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Chữ ký tay</label>
-        <p class="upload-hint">Vẽ chữ ký của bạn vào bảng vẽ bên phải và bấm "Tải PDF Đã Ký" để chèn chữ ký vào trang đầu.</p>
-      </div>
-      <div class="control-group">
-        <label class="control-label">Công cụ vẽ</label>
-        <button class="btn-layout-preset" id="btn-clear-sig" style="width: 100%"><i class="bi bi-eraser"></i> Xoá nét vẽ</button>
-      </div>
-    `;
-    
-    setupSignaturePad();
+  // Collage live adjustments updates
+  ['collage-layout-select', 'collage-gap-slider', 'collage-round-slider', 'collage-bg-input'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', updateCollagePreview);
+    }
+  });
 
-  } else if (currentToolId === 'tool-collage-img') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Bố cục lưới</label>
-        <select class="form-input" id="collage-layout-select">
-          <option value="2x2">Lưới 2x2 (4 hình)</option>
-          <option value="1x2">1 Hàng 2 Cột (2 hình)</option>
-          <option value="1x3">1 Hàng 3 Cột (3 hình)</option>
-        </select>
-      </div>
-      <div class="control-group">
-        <label class="control-label">Khoảng cách viền</label>
-        <div class="range-container">
-          <input type="range" class="range-slider" id="collage-gap-slider" min="0" max="40" value="10">
-          <span class="range-val" id="val-collage-gap">10px</span>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label">Bo tròn góc ảnh</label>
-        <div class="range-container">
-          <input type="range" class="range-slider" id="collage-round-slider" min="0" max="30" value="8">
-          <span class="range-val" id="val-collage-round">8px</span>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label">Màu nền viền</label>
-        <div class="color-picker-container">
-          <input type="color" class="color-swatch-input" id="collage-bg-input" value="#ffffff">
-          <span>Chọn màu viền</span>
-        </div>
-      </div>
-    `;
-    setupSliderListeners('collage-gap-slider', 'val-collage-gap', 'px');
-    setupSliderListeners('collage-round-slider', 'val-collage-round', 'px');
-    
-    // Add real-time change events for collage
-    ['collage-layout-select', 'collage-gap-slider', 'collage-round-slider', 'collage-bg-input'].forEach(id => {
-      document.getElementById(id).addEventListener('input', updateCollagePreview);
+  // Clear Hand-drawn Signature pad
+  const btnClearSig = document.getElementById('btn-clear-sig');
+  if (btnClearSig) {
+    btnClearSig.addEventListener('click', () => {
+      if (sigCtx && sigCanvas) {
+        sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+      }
     });
-
-  } else if (currentToolId === 'tool-webp-jpg') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Định dạng đích</label>
-        <select class="form-input" id="image-format-select">
-          <option value="image/jpeg">JPG (JPEG Image)</option>
-          <option value="image/png">PNG (Portable Network Graphics)</option>
-        </select>
-      </div>
-    `;
-
-  } else if (currentToolId === 'tool-compress-img') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Chất lượng nén</label>
-        <div class="range-container">
-          <input type="range" class="range-slider" id="image-quality-slider" min="10" max="100" value="80">
-          <span class="range-val" id="val-image-quality">80%</span>
-        </div>
-      </div>
-    `;
-    setupSliderListeners('image-quality-slider', 'val-image-quality', '%');
-
-  } else if (currentToolId === 'tool-pdf-word') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Chế độ chuyển đổi</label>
-        <select class="form-input" id="pdf-word-mode">
-          <option value="standard">Chuyển đổi tiêu chuẩn (Giữ nguyên bố cục)</option>
-          <option value="ocr">Nhận dạng chữ viết (OCR - Khuyên dùng cho bản quét)</option>
-        </select>
-      </div>
-      <div class="control-group">
-        <label class="control-label">Định dạng tệp đầu ra</label>
-        <select class="form-input" id="pdf-word-ext">
-          <option value="docx">Word (.docx)</option>
-          <option value="doc">Word 97-2003 (.doc)</option>
-        </select>
-      </div>
-    `;
-  } else if (currentToolId === 'tool-pdf-jpg') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Độ phân giải hình ảnh</label>
-        <select class="form-input" id="pdf-jpg-resolution">
-          <option value="150">Độ phân giải tiêu chuẩn (150 DPI)</option>
-          <option value="300">Độ phân giải cao (300 DPI - Sắc nét)</option>
-          <option value="72">Độ phân giải thấp (72 DPI - Dung lượng nhỏ)</option>
-        </select>
-      </div>
-      <div class="control-group">
-        <label class="control-label">Định dạng ảnh</label>
-        <select class="form-input" id="pdf-jpg-format">
-          <option value="image/jpeg">JPG (.jpg)</option>
-          <option value="image/png">PNG (.png)</option>
-        </select>
-      </div>
-    `;
-  } else if (currentToolId === 'tool-pdf-excel') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Tùy chọn bảng tính</label>
-        <select class="form-input" id="pdf-excel-sheets">
-          <option value="single">Gộp tất cả trang vào một sheet</option>
-          <option value="multi">Mỗi trang PDF thành một sheet riêng</option>
-        </select>
-      </div>
-    `;
-  } else if (currentToolId === 'tool-pdf-ppt') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Bố cục Slide</label>
-        <select class="form-input" id="pdf-ppt-layout">
-          <option value="fit">Vừa trang màn hình (Widescreen 16:9)</option>
-          <option value="standard">Bố cục tiêu chuẩn (4:3)</option>
-        </select>
-      </div>
-    `;
-  } else if (currentToolId === 'tool-word-pdf') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Chất lượng tệp PDF</label>
-        <select class="form-input" id="word-pdf-quality">
-          <option value="high">Chất lượng in ấn (High Quality Print)</option>
-          <option value="standard">Tối ưu hóa hiển thị web (Standard)</option>
-        </select>
-      </div>
-    `;
-  } else if (currentToolId === 'tool-excel-pdf') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Phạm vi chuyển đổi</label>
-        <select class="form-input" id="excel-pdf-sheets">
-          <option value="all">Chuyển đổi toàn bộ bảng tính (All Sheets)</option>
-          <option value="active">Chỉ chuyển đổi sheet hiện hành</option>
-        </select>
-      </div>
-      <div class="control-group">
-        <label class="control-label">Hướng trang</label>
-        <select class="form-input" id="excel-pdf-orientation">
-          <option value="landscape">Nằm ngang (Khuyên dùng cho bảng tính rộng)</option>
-          <option value="portrait">Nằm dọc (Portrait)</option>
-        </select>
-      </div>
-    `;
-  } else if (currentToolId === 'tool-ppt-pdf') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Độ phân giải slide</label>
-        <select class="form-input" id="ppt-pdf-resolution">
-          <option value="1080">Full HD 1080p (Sắc nét)</option>
-          <option value="720">HD 720p (Dung lượng vừa phải)</option>
-        </select>
-      </div>
-    `;
-  } else if (currentToolId === 'tool-jpg-pdf') {
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Hướng trang</label>
-        <select class="form-input" id="jpg-pdf-orientation">
-          <option value="portrait">Nằm dọc (Portrait)</option>
-          <option value="landscape">Nằm ngang (Landscape)</option>
-          <option value="auto">Tự động xoay theo ảnh</option>
-        </select>
-      </div>
-      <div class="control-group">
-        <label class="control-label">Khổ trang</label>
-        <select class="form-input" id="jpg-pdf-size">
-          <option value="a4">Khổ A4 (210 x 297 mm)</option>
-          <option value="letter">Khổ US Letter</option>
-          <option value="fit">Vừa khít kích thước ảnh</option>
-        </select>
-      </div>
-      <div class="control-group">
-        <label class="control-label">Kích thước lề</label>
-        <select class="form-input" id="jpg-pdf-margin">
-          <option value="none">Không lề (No margin)</option>
-          <option value="small">Lề nhỏ (20px)</option>
-          <option value="large">Lề lớn (40px)</option>
-        </select>
-      </div>
-    `;
-  } else if (currentToolId.includes('pdf-') || currentToolId.includes('-pdf') || currentToolId.includes('epub') || currentToolId.includes('mobi')) {
-    // Other converters
-    workspaceControls.innerHTML = `
-      <div class="control-group">
-        <label class="control-label">Cài đặt chuyển đổi</label>
-        <p class="upload-hint">Quy trình tự động hóa chuyển đổi định dạng tài liệu được tối ưu trên hạ tầng đám mây tốc độ cao.</p>
-      </div>
-    `;
   }
 }
+
+// Trigger initial listeners binding
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initToolControlsListeners);
+} else {
+  initToolControlsListeners();
+}
+
 
 // Setup slider value listener
 function setupSliderListeners(sliderId, valueId, suffix) {

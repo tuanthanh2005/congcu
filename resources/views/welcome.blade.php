@@ -398,18 +398,18 @@
       <div class="tarot-inner">
         <div class="tarot-glow"></div>
         <div class="category-header">
-          <div class="cat-icon tarot-gradient"><i class="bi bi-magic text-warning"></i></div>
+          <div class="cat-icon tarot-gradient"><i class="bi bi-magic"></i></div>
           <div>
             <h3 class="cat-title">Xem Tarot Online</h3>
             <p class="cat-desc">Khám phá bí ẩn tương lai qua những lá bài Tarot huyền bí</p>
           </div>
         </div>
         <div class="tarot-cards-preview">
-          <div class="tarot-card-preview" style="--delay:0s"><i class="bi bi-moon-stars text-warning"></i></div>
-          <div class="tarot-card-preview" style="--delay:0.1s"><i class="bi bi-star text-warning"></i></div>
-          <div class="tarot-card-preview" style="--delay:0.2s"><i class="bi bi-sun text-warning"></i></div>
-          <div class="tarot-card-preview" style="--delay:0.3s"><i class="bi bi-stars text-warning"></i></div>
-          <div class="tarot-card-preview" style="--delay:0.4s"><i class="bi bi-eye text-warning"></i></div>
+          <div class="tarot-card-preview" style="--delay:0s"><i class="bi bi-moon-stars"></i></div>
+          <div class="tarot-card-preview" style="--delay:0.1s"><i class="bi bi-star"></i></div>
+          <div class="tarot-card-preview" style="--delay:0.2s"><i class="bi bi-sun"></i></div>
+          <div class="tarot-card-preview" style="--delay:0.3s"><i class="bi bi-stars"></i></div>
+          <div class="tarot-card-preview" style="--delay:0.4s"><i class="bi bi-eye"></i></div>
         </div>
         <a href="#" class="btn-tarot" id="btn-tarot-start"><i class="bi bi-magic"></i> Bắt đầu xem Tarot</a>
       </div>

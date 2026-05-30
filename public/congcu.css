@@ -780,8 +780,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* Tarot special */
 .tarot-category {
-  background: linear-gradient(135deg, #fefce8 0%, #fef9c3 40%, #fefce8 100%);
-  border-color: #fde68a;
+  background: #fefdec;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -789,8 +790,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tarot-inner { position: relative; z-index: 1; }
 .tarot-glow {
   position: absolute; inset: 0;
-  background: radial-gradient(ellipse at center, rgba(251,191,36,0.15) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(251,191,36,0.06) 0%, transparent 70%);
   pointer-events: none;
+}
+.tarot-category .cat-icon.tarot-gradient {
+  background: #fef08a !important;
+  border: 1.5px solid #fde047 !important;
+}
+.tarot-category .cat-icon.tarot-gradient i {
+  color: #0f1123 !important;
 }
 .tarot-cards-preview {
   display: flex;
@@ -800,8 +808,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .tarot-card-preview {
   width: 60px; height: 86px;
-  background: linear-gradient(135deg, #fff7ed, #fef3c7);
-  border: 1.5px solid #fcd34d;
+  background: #fffef4;
+  border: 1.5px solid #fef08a;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -809,7 +817,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-size: 1.7rem;
   animation: tarotFloat 3s ease-in-out infinite;
   animation-delay: var(--delay);
-  box-shadow: 0 4px 16px rgba(251,191,36,0.2), 0 1px 4px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(251,191,36,0.1), 0 1px 3px rgba(0,0,0,0.04);
+}
+.tarot-card-preview i {
+  color: #0f1123 !important;
 }
 @keyframes tarotFloat {
   0%,100% { transform: translateY(0) rotate(-2deg); }
@@ -821,18 +832,19 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   align-items: center;
   gap: 8px;
   padding: 13px 32px;
-  background: linear-gradient(135deg, #f59e0b, #d97706);
+  background: #ea580c;
   color: #fff;
   border-radius: 12px;
   font-size: 0.97rem;
   font-weight: 700;
   margin-top: 8px;
   transition: all var(--transition);
-  box-shadow: 0 6px 20px rgba(245,158,11,0.35);
+  box-shadow: 0 6px 20px rgba(234, 88, 12, 0.3);
 }
 .btn-tarot:hover {
+  background: #c2410c;
   transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(245,158,11,0.4);
+  box-shadow: 0 10px 28px rgba(234, 88, 12, 0.35);
 }
 
 /* ============================================================
